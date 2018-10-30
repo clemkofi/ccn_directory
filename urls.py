@@ -45,6 +45,14 @@ URLS_FOR_API = [
         ], 
         'endpoint':'admin'
     },
+    {
+        # endpoint to login for admin
+        'class':AdminLoginResource,
+        'urls':[
+            '/adminlogin/', # use get to login
+        ],
+        'endpoint':'adminlogin'
+    },
     # {
     #     'class':CollegeResource,
     #     'urls':[
