@@ -31,7 +31,6 @@ MarkupSafe==1.0
 mccabe==0.6.1
 modulegraph==0.17
 pipreqs==0.4.9
-pkg-resources==0.0.0
 py2app==0.18
 pycparser==2.19
 PyJWT==1.6.4
