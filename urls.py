@@ -1,5 +1,5 @@
 from resources.HelloWorld import HelloWorld
-
+from resources.admin import AdminLoginResource, AdminResource
 
 def add_api_url_rule(api, resource_class, urls, endpoint=None):
     ''' 
@@ -36,6 +36,14 @@ URLS_FOR_API = [
             '/',
         ], 
         'endpoint':'hello'
+    },
+    {
+        # the endpoint for admin creation, deletion and updating
+        'class':AdminResource,
+        'urls':[
+            '/admin/', # post with parameters to add new admin
+        ], 
+        'endpoint':'admin'
     },
     # {
     #     'class':CollegeResource,
