@@ -32,7 +32,6 @@ MarkupSafe==1.0
 mccabe==0.6.1
 modulegraph==0.17
 pipreqs==0.4.9
-pkg-resources==0.0.0
 py2app==0.18
 pycodestyle==2.4.0
 pycparser==2.19
