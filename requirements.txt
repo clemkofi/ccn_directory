@@ -2,6 +2,7 @@ altgraph==0.16.1
 aniso8601==4.0.1
 asn1crypto==0.24.0
 astroid==1.6.5
+autopep8==1.4.2
 backports.functools-lru-cache==1.5
 blinker==1.4
 certifi==2018.10.15
@@ -31,7 +32,9 @@ MarkupSafe==1.0
 mccabe==0.6.1
 modulegraph==0.17
 pipreqs==0.4.9
+pkg-resources==0.0.0
 py2app==0.18
+pycodestyle==2.4.0
 pycparser==2.19
 PyJWT==1.6.4
 pylint==1.9.3

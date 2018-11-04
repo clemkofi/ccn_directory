@@ -1,5 +1,6 @@
 from resources.HelloWorld import HelloWorld
 from resources.admin import AdminLoginResource, AdminResource
+from resources.first_timers import FirstTimersResource, FirstTimersCSVUpload
 
 def add_api_url_rule(api, resource_class, urls, endpoint=None):
     ''' 
@@ -53,101 +54,20 @@ URLS_FOR_API = [
         ],
         'endpoint':'adminlogin'
     },
-    # {
-    #     'class':CollegeResource,
-    #     'urls':[
-    #         '/colleges/',  # get all the colleges 
-    #         '/colleges/<int:college_id>/', #list all the faculties and departments in a college
-    #     ], 
-    #     'endpoint':'college'
-    # },
-    # {
-    #     'class':FacultyResource,
-    #     'urls':[
-    #         '/faculty/', # get all the faculties 
-    #         '/faculty/<int:faculty_id>/',  #list all the departments that in a faculty
-    #     ], 
-    #     'endpoint':'faculty'
-    # },
-    # {
-    #     'class':DepartmentResource,
-    #     'urls':[
-    #         '/department/', # get all the faculties 
-    #     ], 
-    #     'endpoint':'department'
-    # },
-    # {
-    #     'class':LecturerResource,
-    #     'urls':[
-    #         '/lecturer/', # use post to create a new lecturer
-    #         '/lecturer/',  
-    #         #'college_id' : '1' or '' if the focus is not the college level lecturers,
-    #         #'faculty_id' : '1' or '' if the focus is not the faculty level lecturers,
-    #         #'department_id' : '1' or '' if the focus is not the department level lecturers,
-    #     ], 
-    #     'endpoint':'lecturer'
-    # },
-    # {
-    #     'class':LecturerLoginResource,
-    #     'urls':[
-    #         '/lecturerlogin/', # use post to create a new lecturer
-    #     ],
-    #     'endpoint':'lecturerlogin'
-    # },
-    # {
-    #     'class':StaffResource,
-    #     'urls':[
-    #         '/staff/', # use post to create a new lecturer
-    #     ], 
-    #     'endpoint':'staff'
-    # },
-    # {
-    #     'class':StaffLoginResource,
-    #     'urls':[
-    #         '/stafflogin/', # use post to create a new lecturer
-    #     ],
-    #     'endpoint':'stafflogin'
-    # },
-    # {
-    #     'class':ClaimRequestResource,
-    #     'urls':[
-    #         '/claims/', # use post to create a new lecturer ---- use the get request to get the claims that are uncompleted
-    #     ],
-    #     'endpoint':'claims'
-    # },
-    # {
-    #     'class':ClaimItemsResource,
-    #     'urls':[
-    #         '/claimitems/', # use post to create a new lecturer ---- use the get request to get the claims that are uncompleted
-    #     ],
-    #     'endpoint':'claimsitems'
-    # },
-    # {
-    #     'class':AdminResource,
-    #     'urls':[
-    #         '/admin/', # use post to create a new lecturer
-    #     ], 
-    #     'endpoint':'admin'
-    # },
-    # {
-    #     'class':AdminLoginResource,
-    #     'urls':[
-    #         '/adminlogin/', # use post to create a new lecturer
-    #     ],
-    #     'endpoint':'adminlogin'
-    # },
-    # {
-    #     'class':ClaimCompleteResource,
-    #     'urls':[
-    #         '/claimcomplete/', # use post to create a new lecturer
-    #     ],
-    #     'endpoint':'claimcomplete'
-    # },
-    # {
-    #     'class':ApproveRequestResource,
-    #     'urls':[
-    #         '/approve_request/', # use post to create a new lecturer
-    #     ],
-    #     'endpoint':'approve_request'
-    # },
+    {
+        # endpoint for getting and adding new first timers
+        'class':FirstTimersResource,
+        'urls':[
+            '/first_timers/', # use get to obtain first timers and post to add new ones
+        ],
+        'endpoint':'first_timers'
+    },
+    {
+        # endpoint for adding new first timers from csv file
+        'class':FirstTimersCSVUpload,
+        'urls':[
+            '/dataset/', # use post to upload/import the csv file
+        ],
+        'endpoint':'dataset'
+    },
 ]

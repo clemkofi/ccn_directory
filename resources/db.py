@@ -26,6 +26,7 @@ class DatabaseReq(object):
             )
             raise e
 
+    # fucntion to create a cursor for excuting stored procedures
     def get_cursor(self, proc_name, mode, args=[]):
         try:
             # arguments for he procedure
@@ -69,6 +70,28 @@ class DatabaseReq(object):
 
                 # get the current cursor being used
                 return self._cursor.fetchall()
+        except Exception as e:
+            return{'error':'function error'}
+
+    # function to load a csv file to mysql db quickly
+    def load_data(self, path_to_file, table_name):
+        try:
+            # query statement
+            load_stmt = ("LOAD DATA LOCAL INFILE '%s' INTO TABLE %s;")
+
+            # format data to use in query
+            data = (path_to_file, table_name)
+
+            self._cursor.execute(load_stmt, data)
+
+            # get the current cursor being used
+            data = self._cursor.fetchall()
+
+            if len(data) is 0:
+                self._conn.commit()
+                return "success"
+            self._conn.commit()
+            return "success"
         except Exception as e:
             return{'error':'function error'}
 
