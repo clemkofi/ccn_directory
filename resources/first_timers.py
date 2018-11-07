@@ -213,8 +213,8 @@ class FirstTimersResource(Resource):
             args_to_pass.append(args['inviter'])
             args_to_pass.append(args['member'])
             args_to_pass.append(args['student'])
-            args_to_pass.append(args['dob'])
-            args_to_pass.append(args['attendance_date'])
+            args_to_pass.append(get_timestamp(args['dob']))
+            args_to_pass.append(get_timestamp(args['attendance_date']))
             
             # creating a cursor from the db class
             arg_data = DatabaseReq().get_cursor(
