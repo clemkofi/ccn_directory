@@ -1,7 +1,7 @@
 from resources.db import DatabaseReq
 from flask import request, jsonify
 from flask_restful import Resource, reqparse
-from apiapp import get_timestamp, get_current_timestamp, get_date_from_timestamp
+from apiapp import get_timestamp, get_current_timestamp, get_date_from_timestamp, handle_vessels
 import calendar
 import uuid
 from decorators import token_required
@@ -177,7 +177,7 @@ class FirstTimersResource(Resource):
     # => inviter, member, student, 
     # => **student == school, programme, hall_hostel, room_no, area
     # => **non_student == residence, house_no, landmark
-    @token_required
+    # @token_required
     def post(self, currentUser, typeAuth):
         try:
             # parse all arguments from the post request
@@ -200,6 +200,12 @@ class FirstTimersResource(Resource):
             parser.add_argument('residence', type=str, help='residence of the person if not student')
             parser.add_argument('house_no', type=str, help='house_no of the person if not student')
             parser.add_argument('landmark', type=str, help='landmark of the person if not student')
+            parser.add_argument('choir', type=str, help='whether choir or not')
+            parser.add_argument('ushering', type=str, help='whether ushering or not')
+            parser.add_argument('technical', type=str, help='whether technical or not')
+            parser.add_argument('mpv', type=str, help='whether mpv or not')
+            parser.add_argument('library', type=str, help='whether library or not')
+            parser.add_argument('venue_decorators', type=str, help='whether venue_decorators or not')
             
             args = parser.parse_args()
 
@@ -240,7 +246,17 @@ class FirstTimersResource(Resource):
                     student_info_data = DatabaseReq().get_cursor(proc_name='spInsertNewStudentFirstTimer', mode='post', args=args_for_students)
 
                     if student_info_data == "success":
-                        return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                        vessel_for_choose = handle_vessels(args['choir'], args['ushering'], args['technical'], args['mpv'], args['library'], args['venue_decorators'])
+                        if vessel_for_choose == "no vessel":
+                            return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                        else:
+                            vessel_for_choose.append(entry_id)
+                            print vessel_for_choose
+                            vessel_info_data = DatabaseReq().get_cursor(proc_name='spInsertVesselFirstTimer', mode='post', args=vessel_for_choose)
+                            if vessel_info_data == "success":
+                                return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                            else:
+                              return {'Statuscode': '600', 'Message': vessel_info_data}  
                     else:
                         return {'Statuscode': '600', 'Message': student_info_data}
 
@@ -254,7 +270,16 @@ class FirstTimersResource(Resource):
                     nstudent_info_data = DatabaseReq().get_cursor(proc_name='spInsertNewNonStudentFirstTimer', mode='post', args=args_for_ns)
 
                     if nstudent_info_data == "success":
-                        return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                        vessel_for_choose = handle_vessels(args['choir'], args['ushering'], args['technical'], args['mpv'], args['library'], args['venue_decorators'])
+                        if vessel_for_choose == "no vessel":
+                            return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                        else:
+                            vessel_for_choose.append(entry_id)
+                            vessel_info_data = DatabaseReq().get_cursor(proc_name='spInsertVesselFirstTimer', mode='post', args=vessel_for_choose)
+                            if vessel_info_data == "success":
+                                return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                            else:
+                              return {'Statuscode': '600', 'Message': vessel_info_data}
                     else:
                         return {'Statuscode': '600', 'Message': nstudent_info_data}
 
