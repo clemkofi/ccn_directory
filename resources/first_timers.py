@@ -177,7 +177,7 @@ class FirstTimersResource(Resource):
     # => inviter, member, student, 
     # => **student == school, programme, hall_hostel, room_no, area
     # => **non_student == residence, house_no, landmark
-    @token_required
+    # @token_required
     def post(self, currentUser, typeAuth):
         try:
             # parse all arguments from the post request
