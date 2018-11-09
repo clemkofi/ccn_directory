@@ -42,14 +42,14 @@ class FirstTimersResource(Resource):
                     if int(request.args.values()[0]) == 1:
                         data_first_timers = DatabaseReq().get_cursor(proc_name='spGet20FirstTimers', mode='get')
                     else:
-                        return {'Statuscode' : '400', 'Message' : 'No Names found!'}
+                        return {'Statuscode' : '400', 'message' : 'No Names found!'}
 
                 if param_used == 'month_added':
                     month = int(request.args.values()[0])
                     year = int(request.args.values()[1])
 
                     if not month or not year:
-                        return {'Statuscode' : '400', 'Message' : 'Month/Year not specified!'}
+                        return {'Statuscode' : '400', 'message' : 'Month/Year not specified!'}
                     
                     # gets the timestamp for the start of the month => first day of the month
                     start_month_timestamp = get_timestamp(str(year) + "-" + str(month) + "-01")
@@ -66,7 +66,7 @@ class FirstTimersResource(Resource):
                     date_added = int(request.args.values()[0])
 
                     if not date_added:
-                        return {'Statuscode' : '400', 'Message' : 'Date not specified!'}
+                        return {'Statuscode' : '400', 'message' : 'Date not specified!'}
 
                     data_first_timers = DatabaseReq().get_cursor(proc_name='spGetFirstTimersForDay', mode='get', args=[date_added])
 
@@ -165,7 +165,7 @@ class FirstTimersResource(Resource):
 
                 return {'Statuscode':'200','First_timers':First_Timers_list}
 
-            return {'Statuscode' : '400', 'Message' : 'No result found!'}
+            return {'Statuscode' : '400', 'message' : 'No result found!'}
 
         except Exception as e:
             return{'error' : str(e)}
@@ -178,7 +178,8 @@ class FirstTimersResource(Resource):
     # => **student == school, programme, hall_hostel, room_no, area
     # => **non_student == residence, house_no, landmark
     # @token_required
-    def post(self, currentUser, typeAuth):
+    # def post(self, currentUser, typeAuth):
+    def post(self):
         try:
             # parse all arguments from the post request
             parser = reqparse.RequestParser()
@@ -248,17 +249,17 @@ class FirstTimersResource(Resource):
                     if student_info_data == "success":
                         vessel_for_choose = handle_vessels(args['choir'], args['ushering'], args['technical'], args['mpv'], args['library'], args['venue_decorators'])
                         if vessel_for_choose == "no vessel":
-                            return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                            return {'Statuscode': '200', 'message': 'First Timer Successfully added!'}
                         else:
                             vessel_for_choose.append(entry_id)
                             print vessel_for_choose
                             vessel_info_data = DatabaseReq().get_cursor(proc_name='spInsertVesselFirstTimer', mode='post', args=vessel_for_choose)
                             if vessel_info_data == "success":
-                                return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                                return {'Statuscode': '200', 'message': 'First Timer Successfully added!'}
                             else:
-                              return {'Statuscode': '600', 'Message': vessel_info_data}  
+                              return {'Statuscode': '600', 'message': vessel_info_data}  
                     else:
-                        return {'Statuscode': '600', 'Message': student_info_data}
+                        return {'Statuscode': '600', 'message': student_info_data}
 
                 if int(args['student']) == 0:
                     args_for_ns = []
@@ -272,19 +273,19 @@ class FirstTimersResource(Resource):
                     if nstudent_info_data == "success":
                         vessel_for_choose = handle_vessels(args['choir'], args['ushering'], args['technical'], args['mpv'], args['library'], args['venue_decorators'])
                         if vessel_for_choose == "no vessel":
-                            return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                            return {'Statuscode': '200', 'message': 'First Timer Successfully added!'}
                         else:
                             vessel_for_choose.append(entry_id)
                             vessel_info_data = DatabaseReq().get_cursor(proc_name='spInsertVesselFirstTimer', mode='post', args=vessel_for_choose)
                             if vessel_info_data == "success":
-                                return {'Statuscode': '200', 'Message': 'First Timer Successfully added!'}
+                                return {'Statuscode': '200', 'message': 'First Timer Successfully added!'}
                             else:
-                              return {'Statuscode': '600', 'Message': vessel_info_data}
+                              return {'Statuscode': '600', 'message': vessel_info_data}
                     else:
-                        return {'Statuscode': '600', 'Message': nstudent_info_data}
+                        return {'Statuscode': '600', 'message': nstudent_info_data}
 
             else:
-                return {'Statuscode': '600', 'Message': 'First Timer details not successfully added!'}
+                return {'Statuscode': '600', 'message': 'First Timer details not successfully added!'}
                 
         except Exception as e:
             return{'error' : str(e)}
@@ -356,9 +357,9 @@ class FirstTimersResource(Resource):
                         student_info_data = DatabaseReq().get_cursor(proc_name='spUpdateStudentFirstTimer', mode='post', args=args_for_students)
 
                         if student_info_data == "success":
-                            return {'Statuscode': '200', 'Message': 'First Timer update Successful!'}
+                            return {'Statuscode': '200', 'message': 'First Timer update Successful!'}
                         else:
-                            return {'Statuscode': '600', 'Message': student_info_data}
+                            return {'Statuscode': '600', 'message': student_info_data}
 
                     if int(args['student']) == 0:
                         args_for_ns = []
@@ -370,13 +371,13 @@ class FirstTimersResource(Resource):
                         nstudent_info_data = DatabaseReq().get_cursor(proc_name='spUpdateNonStudentFirstTimer', mode='post', args=args_for_ns)
 
                         if nstudent_info_data == "success":
-                            return {'Statuscode': '200', 'Message': 'First Timer update Successfully!'}
+                            return {'Statuscode': '200', 'message': 'First Timer update Successfully!'}
                         else:
-                            return {'Statuscode': '600', 'Message': nstudent_info_data}
+                            return {'Statuscode': '600', 'message': nstudent_info_data}
                 else:
-                    return {'Statuscode': '700', 'Message': arg_data}
+                    return {'Statuscode': '700', 'message': arg_data}
             else:
-                return {'Statuscode':'600', 'Message':'Update unsuccessful!'}
+                return {'Statuscode':'600', 'message':'Update unsuccessful!'}
 
         except Exception as e:
             return{'error': str(e)}
@@ -402,11 +403,11 @@ class FirstTimersResource(Resource):
                 data_ft_delete = DatabaseReq().get_cursor(proc_name='spDeleteOneFirstTimer', mode='del', args=[first_timer_id])
 
                 if data_ft_delete=="success":
-                    return {'Statuscode':'200', 'Message':'Entry successfully deleted'}
+                    return {'Statuscode':'200', 'message':'Entry successfully deleted'}
                 else: 
-                    return {'Statuscode':'700', 'Message':data_ft_delete}
+                    return {'Statuscode':'700', 'message':data_ft_delete}
             else:
-                return {'Statuscode':'600', 'Message':'No result found'}
+                return {'Statuscode':'600', 'message':'No result found'}
 
         except Exception as e:
             return{'error': str(e)}
@@ -441,11 +442,11 @@ class FirstTimersCSVUpload(Resource):
                 data_upload = DatabaseReq().load_data(file_path, 'first_timers')
 
                 if data_upload == "success":
-                    return {'Statuscode': '200', 'Message' : 'Data successfully uploaded!'}
+                    return {'Statuscode': '200', 'message' : 'Data successfully uploaded!'}
                 else:
-                    return {'Statuscode' : '700', 'Message' : 'Upload failed ... Try Again!'}
+                    return {'Statuscode' : '700', 'message' : 'Upload failed ... Try Again!'}
 
-            # return {'Statuscode': '200', 'Message' : 'Read Succesfully'}
-            return {'Statuscode': '600', 'Message' : 'No File Uploaded ... Try again!'}
+            # return {'Statuscode': '200', 'message' : 'Read Succesfully'}
+            return {'Statuscode': '600', 'message' : 'No File Uploaded ... Try again!'}
         except Exception as e:
             return{'error' : str(e)}

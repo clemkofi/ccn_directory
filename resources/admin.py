@@ -46,7 +46,7 @@ class AdminResource(Resource):
 
                 return {'Statuscode':'200','Admins':AdminList}
             else: 
-                return {'Statuscode':'600', 'Message':'No result found'}
+                return {'Statuscode':'600', 'message':'No result found'}
 
         except Exception as e:
             return{'error' : str(e)}
@@ -94,9 +94,9 @@ class AdminResource(Resource):
             proc_name='spInsertNewAdmin', mode='post', args=args_to_pass)
 
         if arg_data == "success":
-            return {'Statuscode': '200', 'Message': 'Admin creation successful'}
+            return {'Statuscode': '200', 'message': 'Admin creation successful'}
         else:
-            return {'Statuscode': '600', 'Message': arg_data}
+            return {'Statuscode': '600', 'message': arg_data}
 
     # /admin/?a_id=public_id
     # with form data to update the current admin details
@@ -138,11 +138,11 @@ class AdminResource(Resource):
                     proc_name='spUpdateAdmin', mode='post', args=args_to_pass)
 
                 if arg_data == "success":
-                    return {'Statuscode': '200', 'Message': 'Admin update successful'}
+                    return {'Statuscode': '200', 'message': 'Admin update successful'}
                 else:
-                    return {'Statuscode': '700', 'Message': arg_data}
+                    return {'Statuscode': '700', 'message': arg_data}
             else:
-                return {'Statuscode':'600', 'Message':'No such user found'}
+                return {'Statuscode':'600', 'message':'No such user found'}
 
         except Exception as e:
             return{'error': str(e)}
@@ -169,11 +169,11 @@ class AdminResource(Resource):
                 data_Admin_delete = DatabaseReq().get_cursor(proc_name='spDeleteOneAdmin', mode='del', args=[admin_public_id])
 
                 if data_Admin_delete=="success":
-                    return {'Statuscode':'200', 'Message':'Admin successfully deleted'}
+                    return {'Statuscode':'200', 'message':'Admin successfully deleted'}
                 else: 
-                    return {'Statuscode':'700', 'Message':data_Admin_delete}
+                    return {'Statuscode':'700', 'message':data_Admin_delete}
             else:
-                return {'Statuscode':'600', 'Message':'No such user found'}
+                return {'Statuscode':'600', 'message':'No such user found'}
 
         except Exception as e:
             return{'error': str(e)}
