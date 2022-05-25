@@ -35,7 +35,7 @@ pipreqs==0.4.9
 py2app==0.18
 pycodestyle==2.4.0
 pycparser==2.19
-PyJWT==1.6.4
+PyJWT==2.4.0
 pylint==1.9.3
 PyMySQL==0.9.2
 pyparsing==2.2.2
